@@ -6,9 +6,13 @@ A Godot game about climbing an ice wall. Use A and D to use arms and click to an
 ## Controls:
 
 A\left: start using left arm
+
 D\right: start using right arm
+
 Left Click: anchor the hand's ice pick into the ice
+
 Q: quit game and see score
+
 Mouse Movement: move an unanchored arm or body
 
 ## Playable Demo
