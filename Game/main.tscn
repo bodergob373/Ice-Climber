@@ -1,0 +1,618 @@
+[gd_scene load_steps=24 format=3 uid="uid://ch2weyrvd5q3i"]
+
+[ext_resource type="Script" uid="uid://ll8n6luid0ia" path="res://main.gd" id="1_dg77c"]
+[ext_resource type="Texture2D" uid="uid://b8sl6tyfung80" path="res://charactersprites/upperbody.png" id="2_272bh"]
+[ext_resource type="Script" uid="uid://mrqd00oqqmhq" path="res://floor.gd" id="2_efxa6"]
+[ext_resource type="Texture2D" uid="uid://bjbbpbvp1u0dw" path="res://charactersprites/waist.png" id="3_5vw27"]
+[ext_resource type="Texture2D" uid="uid://d1l0gfdftqfc5" path="res://ledge.png" id="3_dg77c"]
+[ext_resource type="Texture2D" uid="uid://5vdbepvh6ls8" path="res://healcrate.png" id="3_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://bjysukpx1urp7" path="res://charactersprites/upperarm.png" id="4_kek77"]
+[ext_resource type="Texture2D" uid="uid://coocpwojlhti8" path="res://charactersprites/upperleg.png" id="5_4c57u"]
+[ext_resource type="Texture2D" uid="uid://cpjssed1hq27o" path="res://charactersprites/lowerleg.png" id="6_5vw27"]
+[ext_resource type="Texture2D" uid="uid://ct01ikus008mg" path="res://charactersprites/lowerarm.png" id="6_efxa6"]
+[ext_resource type="Texture2D" uid="uid://b4us2vav84apa" path="res://charactersprites/handopen.png" id="7_272bh"]
+[ext_resource type="Script" uid="uid://cl17mpdhy6opi" path="res://chunkManager.gd" id="11_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://coho6kws6bnpl" path="res://ui.tscn" id="12_dg77c"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ycdy4"]
+friction = 0.4
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1bvp3"]
+radius = 8.0
+height = 56.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h2yge"]
+radius = 8.0
+height = 56.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lquwl"]
+radius = 8.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dg77c"]
+friction = 0.2
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ycdy4"]
+radius = 8.0
+height = 80.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dg77c"]
+radius = 8.0
+height = 64.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w48qg"]
+bounce = 0.2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ycdy4"]
+radius = 8.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mycd"]
+size = Vector2(4352, 512)
+
+[node name="Node2D" type="Node2D"]
+physics_interpolation_mode = 2
+script = ExtResource("1_dg77c")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="Mountain" type="Node2D" parent="." node_paths=PackedStringArray("camera")]
+script = ExtResource("11_ycdy4")
+camera = NodePath("../Climber/UpperBody/CharacterCamera2")
+
+[node name="SlipParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 64
+lifetime = 2.4
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.2
+spread = 180.0
+gravity = Vector2(0, 1280)
+initial_velocity_min = 80.0
+initial_velocity_max = 360.0
+angular_velocity_min = -240.0
+angular_velocity_max = 240.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 2.0
+scale_amount_max = 8.0
+
+[node name="AnchorParticles" type="CPUParticles2D" parent="."]
+emitting = false
+lifetime = 2.4
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.2
+spread = 180.0
+gravity = Vector2(0, 1280)
+initial_velocity_min = 40.0
+initial_velocity_max = 180.0
+angular_velocity_min = -240.0
+angular_velocity_max = 240.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 2.0
+scale_amount_max = 6.0
+
+[node name="Crates" type="Node2D" parent="."]
+
+[node name="HealthCrate" type="Sprite2D" parent="Crates"]
+texture_filter = 1
+position = Vector2(44, 1112)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("3_ycdy4")
+flip_h = true
+flip_v = true
+
+[node name="Climber" type="Node2D" parent="."]
+position = Vector2(0, -164)
+
+[node name="LowerArmL" type="RigidBody2D" parent="Climber"]
+position = Vector2(-36, 24)
+rotation = 3.1415927
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ycdy4")
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+
+[node name="Sprite2D5" type="Sprite2D" parent="Climber/LowerArmL"]
+texture_filter = 1
+position = Vector2(0, -4)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("6_efxa6")
+flip_h = true
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Climber/LowerArmL"]
+position = Vector2(0, -4)
+shape = SubResource("CapsuleShape2D_1bvp3")
+
+[node name="DampedSpringJoint2D7" type="DampedSpringJoint2D" parent="Climber/LowerArmL"]
+position = Vector2(-3.8146973e-06, -44)
+node_a = NodePath("..")
+node_b = NodePath("../../HandL")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+
+[node name="LowerArmR" type="RigidBody2D" parent="Climber"]
+position = Vector2(35.999996, 24)
+rotation = 3.1415927
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ycdy4")
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+
+[node name="Sprite2D6" type="Sprite2D" parent="Climber/LowerArmR"]
+texture_filter = 1
+position = Vector2(0, -4)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("6_efxa6")
+flip_h = true
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Climber/LowerArmR"]
+position = Vector2(0, -4)
+shape = SubResource("CapsuleShape2D_1bvp3")
+
+[node name="DampedSpringJoint2D8" type="DampedSpringJoint2D" parent="Climber/LowerArmR"]
+position = Vector2(0, -44)
+node_a = NodePath("..")
+node_b = NodePath("../../HandR")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+
+[node name="UpperArmL" type="RigidBody2D" parent="Climber"]
+position = Vector2(-36, -12)
+rotation = 3.1415927
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ycdy4")
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+angular_damp_mode = 1
+
+[node name="Sprite2D4" type="Sprite2D" parent="Climber/UpperArmL"]
+texture_filter = 1
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("4_kek77")
+flip_h = true
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Climber/UpperArmL"]
+position = Vector2(7.6293945e-06, 0)
+shape = SubResource("CapsuleShape2D_h2yge")
+
+[node name="PinJoint2D19" type="PinJoint2D" parent="Climber/UpperArmL"]
+position = Vector2(0, -20)
+rotation = 1.5707964
+node_a = NodePath("..")
+node_b = NodePath("../../LowerArmL")
+
+[node name="DampedSpringJoint2D7" type="DampedSpringJoint2D" parent="Climber/UpperArmL"]
+position = Vector2(-1.5258789e-05, 12)
+rotation = 3.1415925
+node_a = NodePath("..")
+node_b = NodePath("../../LowerArmL")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+
+[node name="UpperArmR" type="RigidBody2D" parent="Climber"]
+position = Vector2(35.999996, -12)
+rotation = 3.1415927
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ycdy4")
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+angular_damp_mode = 1
+
+[node name="Sprite2D5" type="Sprite2D" parent="Climber/UpperArmR"]
+texture_filter = 1
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("4_kek77")
+flip_h = true
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Climber/UpperArmR"]
+shape = SubResource("CapsuleShape2D_h2yge")
+
+[node name="PinJoint2D5" type="PinJoint2D" parent="Climber/UpperArmR"]
+position = Vector2(-3.8146973e-06, -20)
+rotation = -1.5707964
+node_a = NodePath("..")
+node_b = NodePath("../../LowerArmR")
+
+[node name="DampedSpringJoint2D8" type="DampedSpringJoint2D" parent="Climber/UpperArmR"]
+position = Vector2(0, 12)
+rotation = 3.1415925
+node_a = NodePath("..")
+node_b = NodePath("../../LowerArmR")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+
+[node name="HandL" type="RigidBody2D" parent="Climber"]
+position = Vector2(-36, 68)
+rotation = 3.1415927
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ycdy4")
+center_of_mass_mode = 1
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+
+[node name="PickCollider" type="CollisionPolygon2D" parent="Climber/HandL"]
+position = Vector2(88.000015, -176)
+scale = Vector2(0.8333316, 0.83333325)
+polygon = PackedVector2Array(-100.80022, 187.20003, -105.60022, 201.60004, -105.60022, 230.40002, -110.40024, 230.40002, -110.40024, 201.60004, -105.60022, 182.40002, -91.200195, 182.40002)
+
+[node name="Sprite2D7" type="Sprite2D" parent="Climber/HandL"]
+texture_filter = 1
+position = Vector2(7.6293945e-06, 4)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("7_272bh")
+flip_v = true
+
+[node name="HandCollider" type="CollisionShape2D" parent="Climber/HandL"]
+position = Vector2(0, 20)
+shape = SubResource("CircleShape2D_lquwl")
+
+[node name="HandCenter" type="Marker2D" parent="Climber/HandL"]
+position = Vector2(0, 20)
+gizmo_extents = 4.0
+
+[node name="PickTip" type="Marker2D" parent="Climber/HandL"]
+position = Vector2(8, -20.000008)
+gizmo_extents = 4.0
+
+[node name="PinJoint2D6" type="PinJoint2D" parent="Climber/HandL"]
+position = Vector2(7.6293945e-06, 20.000008)
+node_a = NodePath("..")
+node_b = NodePath("../../LowerArmL")
+bias = 0.9
+
+[node name="HandR" type="RigidBody2D" parent="Climber"]
+position = Vector2(35.999996, 68)
+rotation = 3.1415927
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ycdy4")
+center_of_mass_mode = 1
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+
+[node name="PickCollider" type="CollisionPolygon2D" parent="Climber/HandR"]
+position = Vector2(88.00002, -160)
+scale = Vector2(0.8333316, 0.83333325)
+polygon = PackedVector2Array(-105.60022, 163.20001, -100.80022, 182.40002, -100.80022, 211.20003, -105.60022, 211.20003, -105.60022, 182.40002, -110.40024, 168.00003, -120.00026, 163.20001)
+
+[node name="Sprite2D8" type="Sprite2D" parent="Climber/HandR"]
+texture_filter = 1
+position = Vector2(1.1444092e-05, 4)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("7_272bh")
+flip_h = true
+flip_v = true
+
+[node name="HandCollider" type="CollisionShape2D" parent="Climber/HandR"]
+position = Vector2(1.5258789e-05, 20)
+shape = SubResource("CircleShape2D_lquwl")
+
+[node name="HandCenter" type="Marker2D" parent="Climber/HandR"]
+position = Vector2(7.6293945e-06, 20)
+gizmo_extents = 4.0
+
+[node name="PickTip" type="Marker2D" parent="Climber/HandR"]
+position = Vector2(-7.9999924, -19.999992)
+gizmo_extents = 4.0
+
+[node name="PinJoint2D7" type="PinJoint2D" parent="Climber/HandR"]
+position = Vector2(1.5258789e-05, 20)
+node_a = NodePath("..")
+node_b = NodePath("../../LowerArmR")
+bias = 0.9
+
+[node name="LowerLegL" type="RigidBody2D" parent="Climber"]
+position = Vector2(-20, 120)
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_dg77c")
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+
+[node name="Sprite2D8" type="Sprite2D" parent="Climber/LowerLegL"]
+texture_filter = 1
+position = Vector2(0, 8)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("6_5vw27")
+flip_h = true
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Climber/LowerLegL"]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_ycdy4")
+
+[node name="LowerLegR" type="RigidBody2D" parent="Climber"]
+position = Vector2(20, 120)
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_dg77c")
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+
+[node name="Sprite2D7" type="Sprite2D" parent="Climber/LowerLegR"]
+texture_filter = 1
+position = Vector2(0, 8)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("6_5vw27")
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Climber/LowerLegR"]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_ycdy4")
+
+[node name="UpperLegL" type="RigidBody2D" parent="Climber"]
+position = Vector2(-20, 68)
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ycdy4")
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+
+[node name="Sprite2D5" type="Sprite2D" parent="Climber/UpperLegL"]
+texture_filter = 1
+position = Vector2(4, 0)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("5_4c57u")
+flip_h = true
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Climber/UpperLegL"]
+shape = SubResource("CapsuleShape2D_dg77c")
+
+[node name="PinJoint2D15" type="PinJoint2D" parent="Climber/UpperLegL"]
+position = Vector2(0, 24)
+node_a = NodePath("..")
+node_b = NodePath("../../LowerLegL")
+softness = 16.0
+
+[node name="DampedSpringJoint2D5" type="DampedSpringJoint2D" parent="Climber/UpperLegL"]
+position = Vector2(0, 56)
+rotation = 3.1415927
+node_a = NodePath("..")
+node_b = NodePath("../../LowerLegL")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+
+[node name="UpperLegR" type="RigidBody2D" parent="Climber"]
+position = Vector2(20, 68)
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ycdy4")
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+
+[node name="Sprite2D6" type="Sprite2D" parent="Climber/UpperLegR"]
+texture_filter = 1
+position = Vector2(-4, 0)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("5_4c57u")
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Climber/UpperLegR"]
+shape = SubResource("CapsuleShape2D_dg77c")
+
+[node name="PinJoint2D16" type="PinJoint2D" parent="Climber/UpperLegR"]
+position = Vector2(0, 24)
+node_a = NodePath("..")
+node_b = NodePath("../../LowerLegR")
+softness = 16.0
+
+[node name="DampedSpringJoint2D6" type="DampedSpringJoint2D" parent="Climber/UpperLegR"]
+position = Vector2(0, 56)
+rotation = 3.1415927
+node_a = NodePath("..")
+node_b = NodePath("../../LowerLegR")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+
+[node name="Waist" type="RigidBody2D" parent="Climber"]
+position = Vector2(0, 36)
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ycdy4")
+center_of_mass_mode = 1
+inertia = 100.0
+can_sleep = false
+max_contacts_reported = 1
+
+[node name="Sprite2D4" type="Sprite2D" parent="Climber/Waist"]
+texture_filter = 1
+position = Vector2(7.6293945e-06, 0)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("3_5vw27")
+flip_h = true
+flip_v = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Climber/Waist"]
+position = Vector2(96.000015, -139.99998)
+scale = Vector2(0.8333316, 0.83333325)
+polygon = PackedVector2Array(-86.400185, 158.40004, -81.600174, 177.60004, -148.80032, 177.60004, -144.0003, 158.40004)
+
+[node name="PinJoint2D9" type="PinJoint2D" parent="Climber/Waist"]
+position = Vector2(20, 8)
+node_a = NodePath("..")
+node_b = NodePath("../../UpperLegR")
+softness = 16.0
+
+[node name="PinJoint2D13" type="PinJoint2D" parent="Climber/Waist"]
+position = Vector2(-20, 8)
+node_a = NodePath("..")
+node_b = NodePath("../../UpperLegL")
+softness = 16.0
+
+[node name="DampedSpringJoint2D3" type="DampedSpringJoint2D" parent="Climber/Waist"]
+position = Vector2(-20, 60)
+rotation = 3.1415927
+node_a = NodePath("..")
+node_b = NodePath("../../UpperLegL")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+damping = 0.2
+
+[node name="DampedSpringJoint2D4" type="DampedSpringJoint2D" parent="Climber/Waist"]
+position = Vector2(20, 60)
+rotation = 3.1415927
+node_a = NodePath("..")
+node_b = NodePath("../../UpperLegR")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+damping = 0.2
+
+[node name="UpperBody" type="RigidBody2D" parent="Climber"]
+physics_interpolation_mode = 2
+position = Vector2(0, -24)
+collision_layer = 0
+mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_w48qg")
+center_of_mass_mode = 1
+inertia = 100.0
+can_sleep = false
+lock_rotation = true
+max_contacts_reported = 1
+angular_damp = 100.0
+
+[node name="Sprite2D3" type="Sprite2D" parent="Climber/UpperBody"]
+texture_filter = 1
+position = Vector2(7.6293945e-06, -8)
+rotation = -3.1415925
+scale = Vector2(4, 4)
+texture = ExtResource("2_272bh")
+flip_h = true
+flip_v = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Climber/UpperBody"]
+position = Vector2(80.00001, -144)
+scale = Vector2(0.8333316, 0.83333325)
+polygon = PackedVector2Array(-81.600174, 144.00003, -57.60012, 153.60004, -57.60012, 182.40002, -67.20014, 235.20004, -96, 400.8, -124.80026, 235.20004, -134.40028, 182.40002, -134.40028, 153.60004, -110.40024, 144.00003, -115.20024, 124.80001, -115.20024, 100.80001, -105.60022, 91.20002, -86.400185, 91.20002, -76.80016, 100.80001, -76.80016, 124.80001)
+
+[node name="BodyCollider" type="Polygon2D" parent="Climber/UpperBody"]
+visible = false
+polygon = PackedVector2Array(0, 88, -24, 68, -28, -16, -20, -20, -12, -64, 12, -64, 20, -20, 28, -16, 24, 68)
+
+[node name="ShoulderR" type="Marker2D" parent="Climber/UpperBody"]
+position = Vector2(36, -8)
+gizmo_extents = 4.0
+
+[node name="ShoulderL" type="Marker2D" parent="Climber/UpperBody"]
+position = Vector2(-36, -8)
+gizmo_extents = 4.0
+
+[node name="PinJoint2D3" type="PinJoint2D" parent="Climber/UpperBody"]
+position = Vector2(0, 52)
+node_a = NodePath("..")
+node_b = NodePath("../../Waist")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Climber/UpperBody"]
+position = Vector2(-36, -8)
+node_a = NodePath("..")
+node_b = NodePath("../../UpperArmL")
+softness = 1.0
+
+[node name="PinJoint2D19" type="PinJoint2D" parent="Climber/UpperBody"]
+position = Vector2(36, -8)
+node_a = NodePath("..")
+node_b = NodePath("../../UpperArmR")
+softness = 1.0
+
+[node name="CharacterCamera2" type="Camera2D" parent="Climber/UpperBody"]
+position = Vector2(0, -24)
+zoom = Vector2(0.6, 0.6)
+position_smoothing_enabled = true
+position_smoothing_speed = 4.0
+rotation_smoothing_speed = 2.0
+
+[node name="FloorDetector" type="Area2D" parent="Climber/UpperBody"]
+position = Vector2(0, 184)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Climber/UpperBody/FloorDetector"]
+rotation = 1.5707964
+shape = SubResource("CircleShape2D_ycdy4")
+
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="Climber/UpperBody"]
+position = Vector2(0, -100)
+node_a = NodePath("..")
+node_b = NodePath("../../Waist")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+damping = 0.2
+
+[node name="DampedSpringJoint2D5" type="DampedSpringJoint2D" parent="Climber/UpperBody"]
+position = Vector2(-36, -44)
+node_a = NodePath("..")
+node_b = NodePath("../../UpperArmL")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+
+[node name="DampedSpringJoint2D6" type="DampedSpringJoint2D" parent="Climber/UpperBody"]
+position = Vector2(36, -44)
+node_a = NodePath("..")
+node_b = NodePath("../../UpperArmR")
+length = 8.0
+rest_length = 8.0
+stiffness = 64.0
+
+[node name="Floors" type="StaticBody2D" parent="."]
+
+[node name="Floor" type="CollisionShape2D" parent="Floors"]
+position = Vector2(0, 256)
+shape = SubResource("RectangleShape2D_7mycd")
+script = ExtResource("2_efxa6")
+
+[node name="Ledge" type="CollisionPolygon2D" parent="Floors"]
+position = Vector2(430.99997, 1235.9999)
+scale = Vector2(1.25, 1.25)
+polygon = PackedVector2Array(-98.39998, -60.799927, -107.99997, -9.599915, -139.99997, 54.400085, -148.80032, 129.60004, -203.99997, 185.60004, -226.39996, 256.00006, -344.79996, 345.60004, -376.79996, 390.4001, -427.99994, 323.2, -469.59995, 217.60004, -520.7999, 144.00006, -571.99994, -19.199951, -571.99994, -60.799927)
+
+[node name="Sprite2D5" type="Sprite2D" parent="Floors/Ledge"]
+texture_filter = 1
+position = Vector2(-336.7999, 153.6001)
+rotation = -3.1415925
+scale = Vector2(4.7999997, 4.7999997)
+texture = ExtResource("3_dg77c")
+flip_h = true
+flip_v = true
+
+[node name="UI" parent="." instance=ExtResource("12_dg77c")]
